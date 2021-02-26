@@ -12,9 +12,9 @@ class IndexView(generic.ListView):
         return Question.objects.all()
 
 
-def detail(request, question_id):
-    question = get_object_or_404(Question, pk=question_id)
-    return render(request, 'polls/detail.html', {'question': question})
+class DetailView(generic.DetailView):
+    model = Question
+    template_name = 'polls/detail.html'
 
 
 def vote(request, question_id):
