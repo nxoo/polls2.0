@@ -17,6 +17,11 @@ class DetailView(generic.DetailView):
     template_name = 'polls/detail.html'
 
 
+class ResultsView(generic.DetailView):
+    model = Question
+    template_name = 'polls/results.html'
+
+
 def vote(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     try:
@@ -34,8 +39,3 @@ def vote(request, question_id):
         to prevent data from being posted twice in case a user hits the back button
         """
         return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
-
-
-class ResultsView(generic.DetailView):
-    model = Question
-    template_name = 'polls/results.html'
