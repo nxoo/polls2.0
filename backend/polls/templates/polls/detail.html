@@ -3,18 +3,28 @@
     <div>
         {% if question %}
             <h2>{{ question.question_text }}</h2>
+
             {% if question.choice_set.all %}
-                <ol type="a">
+                <form action="{% url 'polls:vote' question.id %}" method="post">
+                    {% csrf_token %}
                     {% for choice in question.choice_set.all %}
-                        <li>{{ choice.choice_text }}</li>
+                        <div class="">
+                            <input class="" name="choice" type="radio" id="choice{{ forloop.counter }}"
+                                   value="{{ choice.id }}"/>
+                            <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label>
+                        </div>
                     {% endfor %}
-                </ol>
+                    <input type="submit" class="btn btn-success btn-sm">
+                </form>
             {% else %}
                 <p>Question does not have choices</p>
             {% endif %}
+
         {% else %}
             <p>Question does not exist</p>
         {% endif %}
+
+        <br>
         <p>
             <a href="{% url 'polls:index' %}">Homepage</a>
         </p>
