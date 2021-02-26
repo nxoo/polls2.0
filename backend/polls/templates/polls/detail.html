@@ -3,6 +3,9 @@
     <div>
         {% if question %}
             <h2>{{ question.question_text }}</h2>
+            {% if error_message %}
+                <p style="color: red;">{{ error_message }}</p>
+            {% endif %}
 
             {% if question.choice_set.all %}
                 <form action="{% url 'polls:vote' question.id %}" method="post">
