@@ -1,21 +1,29 @@
 {% extends 'base.html' %}
 {% block content %}
-    {% if question %}
-        <h2>{{ question.question_text }}</h2>
-        {% if question.choice_set.all %}
-            <ol>
-            {% for choice in question.choice_set.all %}
-                <li>{{ choice.choice_text }} -- {{ choice.votes }} vote{{ choice.votes|pluralize }}</li>
-            {% endfor %}
-            </ol>
+    <div>
+        {% if question %}
+            <h2>{{ question.question_text }}</h2>
+            {% if question.choice_set.all %}
+                <ol type="a">
+                    {% for choice in question.choice_set.all %}
+                        <li>
+                            {{ choice.choice_text }}
+                            <span class="badge bg-secondary rounded-pill">
+                        {{ choice.votes }} vote{{ choice.votes|pluralize }}
+                        </span>
+                        </li>
+                    {% endfor %}
+                </ol>
             {% else %}
-            <p>Question doesn't have choices</p>
-        {% endif %}
+                <p>Question doesn't have choices</p>
+            {% endif %}
         {% else %}
-        <p>Question not found</p>
-    {% endif %}
-    <p>
-        <a href="{% url 'polls:index' %}">Homepage</a> |
-        <a href="{% url 'polls:detail' question.id %}">Vote again?</a>
-    </p>
+            <p>Question not found</p>
+        {% endif %}
+        <br>
+        <p>
+            <a href="{% url 'polls:index' %}">Homepage</a> |
+            <a href="{% url 'polls:detail' question.id %}">Vote again?</a>
+        </p>
+    </div>
 {% endblock %}

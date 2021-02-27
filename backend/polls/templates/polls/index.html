@@ -1,13 +1,22 @@
 {% extends 'base.html' %}
 {% block content %}
     <div>
+        <style>
+            a {
+                text-decoration: none;
+            }
+
+            span {
+                font-size: medium;
+            }
+        </style>
         {% if latest_question_list %}
-            <ol>
+            <ol type="1">
                 {% for question in latest_question_list %}
                     <li>
-                        <h2>
+                        <h3>
                             <a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a>
-                        </h2>
+                        </h3>
                     </li>
                 {% endfor %}
             </ol>
