@@ -4,23 +4,30 @@
         {% if question %}
             <h2>{{ question.question_text }}</h2>
             {% if error_message %}
-                <p style="color: red;">{{ error_message }}</p>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{ error_message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
             {% endif %}
 
             {% if question.choice_set.all %}
                 <!-- TODO -->
-                <form action="{% url 'polls:vote' question.id %}" method="post">
+                <form action="{% url 'polls:vote' question.id %}" method="post" class="">
                     {% csrf_token %}
-                    {% for choice in question.choice_set.all %}
-                        <div class="">
-                            <input class="" name="choice" type="radio"
-                                   id="choice{{ forloop.counter }}" value="{{ choice.id }}"/>
-                            <label class="" for="choice{{ forloop.counter }}">
-                                {{ choice.choice_text }}
-                            </label>
-                        </div>
-                    {% endfor %}
-                    <input type="submit" class="btn btn-success btn-sm">
+                    <ol type="a">
+                        {% for choice in question.choice_set.all %}
+                            <li>
+                                <div class="form-check">
+                                    <input class="form-check-input" name="choice" type="radio"
+                                           id="choice{{ forloop.counter }}" value="{{ choice.id }}"/>
+                                    <label class="form-check-label" for="choice{{ forloop.counter }}">
+                                        {{ choice.choice_text }}
+                                    </label>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ol>
+                    <button type="submit" class="btn btn-success btn-sm">vote</button>
                 </form>
             {% else %}
                 <p>Question doesn't have choices</p>
