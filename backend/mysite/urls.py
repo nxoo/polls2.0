@@ -15,10 +15,11 @@ Including another URLconf
 """
 import environ
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
 
 env = environ.Env()
 urlpatterns = [
+    path('polls/', include('polls.urls')),
     path(env('ADMIN_URL'), admin.site.urls),
 ]
