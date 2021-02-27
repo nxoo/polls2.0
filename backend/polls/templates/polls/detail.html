@@ -17,16 +17,17 @@
                     <input type="submit" class="btn btn-success btn-sm">
                 </form>
             {% else %}
-                <p>Question does not have choices</p>
+                <p>Question doesn't have choices</p>
             {% endif %}
 
         {% else %}
-            <p>Question does not exist</p>
+            <p>Question not found</p>
         {% endif %}
 
         <br>
         <p>
-            <a href="{% url 'polls:index' %}">Homepage</a>
+            <a href="{% url 'polls:index' %}">Homepage</a> |
+            <a href="{% url 'polls:results' question.id %}">Results</a>
         </p>
     </div>
 {% endblock %}
