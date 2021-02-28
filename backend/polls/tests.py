@@ -50,6 +50,18 @@ class QuestionIndexViewTests(TestCase):
         )
 
 
+class QuestionDetailViewTests(TestCase):
+    def test_future_question(self):
+        question = create_question("future question", 5)
+        response = self.client.get(reverse('polls:detail', args=(question.id,)))
+        self.assertEqual(response.status_code, 404)
+
+    def test_past_question(self):
+        question = create_question("past question", -5)
+        response = self.client.get(reverse('polls:detail', args=(question.id,)))
+        self.assertEqual(response.status_code, 200)
+
+
 class QuestionModelTests(TestCase):
     def test_was_published_recently_with_future_question(self):
         """
