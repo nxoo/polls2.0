@@ -1,3 +1,5 @@
+import datetime
+from django.utils import timezone
 from django.shortcuts import render, get_object_or_404, reverse
 from django.http import HttpResponseRedirect
 from django.views import generic
@@ -9,7 +11,9 @@ class IndexView(generic.ListView):
     context_object_name = 'latest_question_list'
 
     def get_queryset(self):
-        return Question.objects.all()
+        return Question.objects.filter(
+            pub_date__lte=timezone.now()  # filter out future questions
+        )
 
 
 class DetailView(generic.DetailView):
