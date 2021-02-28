@@ -11,7 +11,7 @@ def create_question(question_text, days):
     offset to now, negative days for past, positive days for future
     """
     time = timezone.now() + datetime.timedelta(days=days)
-    return Question.objects.create(question_text=question_text, days=time)
+    return Question.objects.create(question_text=question_text, pub_date=time)
 
 
 class QuestionIndexViewTests(TestCase):
@@ -20,6 +20,34 @@ class QuestionIndexViewTests(TestCase):
         self.assertIs(response.status_code, 200)
         self.assertContains(response, "There are no polls.")
         self.assertQuerysetEqual(response.context['latest_question_list'], [])
+
+    def test_past_question(self):
+        create_question("past question", -10)
+        response = self.client.get(reverse('polls:index'))
+        self.assertQuerysetEqual(response.context['latest_question_list'], ['<Question: past question>'])
+
+    def test_future_question(self):
+        create_question("future question", 10)
+        response = self.client.get(reverse('polls:index'))
+        self.assertQuerysetEqual(response.context['latest_question_list'], [])
+
+    def test_future_and_past_question(self):
+        create_question("past question", -10)
+        create_question("future question", 10)
+        response = self.client.get(reverse('polls:index'))
+        self.assertQuerysetEqual(response.context['latest_question_list'], ['<Question: past question>'])
+
+    def test_two_past_questions(self):
+        """
+        The questions index page may display multiple questions.
+        """
+        create_question(question_text="Past question 1.", days=-30)
+        create_question(question_text="Past question 2.", days=-5)
+        response = self.client.get(reverse('polls:index'))
+        self.assertQuerysetEqual(
+            response.context['latest_question_list'],
+            ['<Question: Past question 2.>', '<Question: Past question 1.>']
+        )
 
 
 class QuestionModelTests(TestCase):
@@ -47,4 +75,3 @@ class QuestionModelTests(TestCase):
         recent_time = timezone.now() - datetime.timedelta(hours=23)
         recent_question = Question(pub_date=recent_time)
         self.assertIs(recent_question.was_published_recently(), True)
-
