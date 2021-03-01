@@ -2,7 +2,7 @@ import datetime
 from django.test import TestCase
 from django.utils import timezone
 from django.urls import reverse
-from .models import Question
+from .models import Question, Choice
 
 
 def create_question(question_text, days):
@@ -14,6 +14,11 @@ def create_question(question_text, days):
     return Question.objects.create(question_text=question_text, pub_date=time)
 
 
+def create_choice(question, choice_text):
+    # create a choice with the given `question` and `choice_text` and 0 as default votes
+    return question.choice_set.create(choice_text=choice_text, votes=0)
+
+
 class QuestionIndexViewTests(TestCase):
     def test_no_questions(self):
         response = self.client.get(reverse('polls:index'))
@@ -22,18 +27,22 @@ class QuestionIndexViewTests(TestCase):
         self.assertQuerysetEqual(response.context['latest_question_list'], [])
 
     def test_past_question(self):
-        create_question("past question", -10)
+        q = create_question("past question", -10)
+        create_choice(q, "choice")
         response = self.client.get(reverse('polls:index'))
         self.assertQuerysetEqual(response.context['latest_question_list'], ['<Question: past question>'])
 
     def test_future_question(self):
-        create_question("future question", 10)
+        q = create_question("future question", 10)
+        create_choice(q, "choice")
         response = self.client.get(reverse('polls:index'))
         self.assertQuerysetEqual(response.context['latest_question_list'], [])
 
     def test_future_and_past_question(self):
-        create_question("past question", -10)
-        create_question("future question", 10)
+        q = create_question("past question", -10)
+        qq = create_question("future question", 10)
+        create_choice(q, "choice")
+        create_choice(qq, "choice")
         response = self.client.get(reverse('polls:index'))
         self.assertQuerysetEqual(response.context['latest_question_list'], ['<Question: past question>'])
 
@@ -41,25 +50,73 @@ class QuestionIndexViewTests(TestCase):
         """
         The questions index page may display multiple questions.
         """
-        create_question(question_text="Past question 1.", days=-30)
-        create_question(question_text="Past question 2.", days=-5)
+        q = create_question(question_text="Past question 1.", days=-30)
+        qq = create_question(question_text="Past question 2.", days=-5)
+        create_choice(q, 'choice')
+        create_choice(qq, 'choice')
         response = self.client.get(reverse('polls:index'))
         self.assertQuerysetEqual(
             response.context['latest_question_list'],
             ['<Question: Past question 2.>', '<Question: Past question 1.>']
         )
 
+    def test_past_question_with_no_choices(self):
+        question = create_question("no choices", -5)
+        response = self.client.get(reverse('polls:detail', args=(question.id,)))
+        self.assertEqual(response.status_code, 404)
+
+    def test_future_question_with_no_choices(self):
+        question = create_question("no choices", 5)
+        response = self.client.get(reverse('polls:detail', args=(question.id,)))
+        self.assertEqual(response.status_code, 404)
+
 
 class QuestionDetailViewTests(TestCase):
     def test_future_question(self):
         question = create_question("future question", 5)
+        create_choice(question, 'choice')
         response = self.client.get(reverse('polls:detail', args=(question.id,)))
         self.assertEqual(response.status_code, 404)
 
     def test_past_question(self):
         question = create_question("past question", -5)
+        create_choice(question, 'choice')
         response = self.client.get(reverse('polls:detail', args=(question.id,)))
         self.assertEqual(response.status_code, 200)
+
+    def test_past_question_with_no_choices(self):
+        question = create_question("no choices", -5)
+        response = self.client.get(reverse('polls:detail', args=(question.id,)))
+        self.assertEqual(response.status_code, 404)
+
+    def test_future_question_with_no_choices(self):
+        question = create_question("no choices", 5)
+        response = self.client.get(reverse('polls:detail', args=(question.id,)))
+        self.assertEqual(response.status_code, 404)
+
+
+class QuestionResultsViewTests(TestCase):
+    def test_future_question(self):
+        question = create_question("future question", 5)
+        create_choice(question, 'choice')
+        response = self.client.get(reverse('polls:results', args=(question.id,)))
+        self.assertEqual(response.status_code, 404)
+
+    def test_past_question(self):
+        question = create_question("past question", -5)
+        create_choice(question, 'choice')
+        response = self.client.get(reverse('polls:results', args=(question.id,)))
+        self.assertEqual(response.status_code, 200)
+
+    def test_past_question_with_no_choices(self):
+        question = create_question("no choices", -5)
+        response = self.client.get(reverse('polls:results', args=(question.id,)))
+        self.assertEqual(response.status_code, 404)
+
+    def test_future_question_with_no_choices(self):
+        question = create_question("no choices", 5)
+        response = self.client.get(reverse('polls:detail', args=(question.id,)))
+        self.assertEqual(response.status_code, 404)
 
 
 class QuestionModelTests(TestCase):
