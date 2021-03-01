@@ -11,15 +11,13 @@
             }
         </style>
         {% if latest_question_list %}
-            <ol type="1">
-                {% for question in latest_question_list %}
-                    <li>
-                        <h3>
-                            <a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a>
-                        </h3>
-                    </li>
-                {% endfor %}
-            </ol>
+            {% for question in latest_question_list %}
+                <small style="font-size: x-small;">On {{ question.pub_date|date:"F j, Y" }}</small>
+                <h3>
+                    <a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a>
+                </h3>
+                <hr>
+            {% endfor %}
         {% else %}
             <p>There are no polls.</p>
         {% endif %}

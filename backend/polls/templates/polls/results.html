@@ -3,6 +3,7 @@
     <div>
         {% if question %}
             <h2>{{ question.question_text }}</h2>
+            <p style="font-size: x-small;">On {{ question.pub_date|date:"F j, Y" }}</p>
             {% if question.choice_set.all %}
                 <ol type="a">
                     {% for choice in question.choice_set.all %}

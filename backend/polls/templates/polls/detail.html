@@ -3,6 +3,8 @@
     <div>
         {% if question %}
             <h2>{{ question.question_text }}</h2>
+            <p style="font-size: x-small;">On {{ question.pub_date|date:"F j, Y" }}</p>
+
             {% if error_message %}
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                     {{ error_message }}
@@ -11,7 +13,6 @@
             {% endif %}
 
             {% if question.choice_set.all %}
-                <!-- TODO -->
                 <form action="{% url 'polls:vote' question.id %}" method="post" class="">
                     {% csrf_token %}
                     <ol type="a">
