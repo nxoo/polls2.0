@@ -2,7 +2,9 @@ from django.utils import timezone
 from django.shortcuts import render, get_object_or_404, reverse
 from django.http import HttpResponseRedirect
 from django.views import generic
+from rest_framework import viewsets
 from .models import Question, Choice
+from .serializers import QuestionSerializer
 
 
 class IndexView(generic.ListView):
@@ -59,3 +61,8 @@ def vote(request, question_id):
         to prevent data from being posted twice in case a user hits the back button
         """
         return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
+
+
+class QuestionViewSet(viewsets.ModelViewSet):
+    queryset = Question.objects.all()
+    serializer_class = QuestionSerializer
