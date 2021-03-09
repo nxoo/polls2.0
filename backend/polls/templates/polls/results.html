@@ -3,14 +3,15 @@
     <div>
         {% if question %}
             <h2>{{ question.question_text }}</h2>
+            <p style="font-size: x-small;">On {{ question.pub_date|date:"F j, Y" }}</p>
             {% if question.choice_set.all %}
                 <ol type="a">
                     {% for choice in question.choice_set.all %}
-                        <li>
+                        <li class="">
                             {{ choice.choice_text }}
                             <span class="badge bg-secondary rounded-pill">
-                        {{ choice.votes }} vote{{ choice.votes|pluralize }}
-                        </span>
+                            {{ choice.votes }} vote{{ choice.votes|pluralize }}
+                            </span>
                         </li>
                     {% endfor %}
                 </ol>

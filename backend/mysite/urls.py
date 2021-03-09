@@ -20,6 +20,6 @@ from django.urls import path, include
 
 env = environ.Env()
 urlpatterns = [
-    path('polls/', include('polls.urls')),
+    path('', include('polls.urls')),
     path(env('ADMIN_URL'), admin.site.urls),
 ]
