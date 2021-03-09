@@ -7,11 +7,11 @@
             {% if question.choice_set.all %}
                 <ol type="a">
                     {% for choice in question.choice_set.all %}
-                        <li>
+                        <li class="">
                             {{ choice.choice_text }}
                             <span class="badge bg-secondary rounded-pill">
-                        {{ choice.votes }} vote{{ choice.votes|pluralize }}
-                        </span>
+                            {{ choice.votes }} vote{{ choice.votes|pluralize }}
+                            </span>
                         </li>
                     {% endfor %}
                 </ol>
