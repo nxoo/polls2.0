@@ -4,6 +4,7 @@ from . import views
 
 router = DefaultRouter()
 router.register(r'questions', views.QuestionViewSet)
+router.register(r'choices', views.ChoiceViewSet)
 
 app_name = 'polls'
 urlpatterns = [
