@@ -12,11 +12,11 @@
                 </div>
             {% endif %}
 
-            {% if question.choice_set.all %}
+            {% if question.choices.all %}
                 <form action="{% url 'polls:vote' question.id %}" method="post" class="">
                     {% csrf_token %}
                     <ol type="a">
-                        {% for choice in question.choice_set.all %}
+                        {% for choice in question.choices.all %}
                             <li>
                                 <div class="form-check">
                                     <input class="form-check-input" name="choice" type="radio"
