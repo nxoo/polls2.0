@@ -19,14 +19,14 @@ class QuestionSerializer(serializers.ModelSerializer):
         ordering = ['-id']
 
     def create(self, validated_data):
-        choices_data = validated_data.pop('choice')
+        choices_data = validated_data.pop('choices')
         question = Question.objects.create(**validated_data)
         for choice_data in choices_data:
             Choice.objects.create(question=question, **choice_data)
         return question
 
     def update(self, instance, validated_data):
-        choices_data = validated_data.pop('choice')
+        choices_data = validated_data.pop('choices')
         choices = instance.choices.all()
         choices = list(choices)
         instance.question_text = validated_data.get('question_text')
