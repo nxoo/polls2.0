@@ -15,6 +15,12 @@ class QuestionViewSet(viewsets.ModelViewSet):
     serializer_class = QuestionSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
 
+    @action(detail=False)
+    def user(self, request):
+        questions = Question.objects.filter(owner_id=self.request.user.id)
+        serializer = QuestionSerializer(questions, many=True)
+        return Response(serializer.data)
+
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
