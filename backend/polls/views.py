@@ -2,16 +2,18 @@ from django.utils import timezone
 from django.shortcuts import render, get_object_or_404, reverse
 from django.http import HttpResponseRedirect
 from django.views import generic
-from rest_framework import viewsets
+from rest_framework import viewsets, permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from .models import Question, Choice
 from .serializers import QuestionSerializer, ChoiceSerializer
+from .permissions import IsOwnerOrReadOnly, IsChoiceOwnerOrReadOnly
 
 
 class QuestionViewSet(viewsets.ModelViewSet):
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
@@ -20,6 +22,7 @@ class QuestionViewSet(viewsets.ModelViewSet):
 class ChoiceViewSet(viewsets.ModelViewSet):
     queryset = Choice.objects.all()
     serializer_class = ChoiceSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsChoiceOwnerOrReadOnly]
 
     @action(detail=True)
     def vote(self, request, *args, **kwargs):
