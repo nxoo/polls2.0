@@ -6,7 +6,7 @@ class ChoiceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Choice
-        fields = ['id', 'choice_text', 'votes']
+        fields = ['id', 'choice_text', 'votes', 'question']
 
 
 class QuestionSerializer(serializers.ModelSerializer):
@@ -38,4 +38,3 @@ class QuestionSerializer(serializers.ModelSerializer):
             choice.votes = choice_data.get('votes', choice.votes)
             choice.save()
         return instance
-
