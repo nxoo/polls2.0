@@ -5,7 +5,7 @@ export default function Home() {
   return (
       <Layout>
           <Head>
-              <title>Home</title>
+              <title>Polls2.0</title>
           </Head>
           <div>
               <p>Hello World</p>
