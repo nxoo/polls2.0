@@ -3,6 +3,10 @@ import {getAllPollsIds, getPollsData} from "../../lib/polls";
 import Date from "../../components/date";
 import Link from "next/link";
 
+
+const maybePluralize = (count, noun, suffix = 's') =>
+    `${count} ${noun}${count !== 1 ? suffix : ''}`;
+
 export default function Poll({pollData}) {
     return (
         <Layout>
@@ -11,7 +15,7 @@ export default function Poll({pollData}) {
                 <span className="date">By {pollData.owner} on <Date dateString={pollData.pub_date} /></span>
                 <ol type='a'>
                     {pollData.choices.map(({id, choice_text, votes}) => (
-                        <li key={id}>{choice_text} -- {votes}</li>
+                        <li key={id}>{choice_text} -- {maybePluralize(votes, 'vote')}</li>
                     ))}
                 </ol>
                 <Link href="/">
