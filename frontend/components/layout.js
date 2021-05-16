@@ -6,9 +6,9 @@ export default function Layout({children}) {
     return (
         <>
             <Head>
-                <meta name="viewport" content="width=device-width, initial-scale=1" />
+                <meta name="viewport" content="width=device-width, initial-scale=1"/>
             </Head>
-            <Navbar />
+            <Navbar/>
             <div className="container col-sm-6">
                 {children}
             </div>

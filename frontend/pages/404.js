@@ -12,9 +12,9 @@ export default function Custom404() {
                 </Link>
             </div>
             <style jsx>{`
-                .custom404 {
-                    margin-top: 10%;
-                }
+              .custom404 {
+                margin-top: 10%;
+              }
             `}</style>
         </Layout>
     )

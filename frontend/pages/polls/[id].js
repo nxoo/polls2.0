@@ -12,7 +12,7 @@ export default function Poll({pollData}) {
         <Layout>
             <div className="p-2">
                 <h4>{pollData.question_text}</h4>
-                <span className="date">By {pollData.owner} on <Date dateString={pollData.pub_date} /></span>
+                <span className="date">By {pollData.owner} on <Date dateString={pollData.pub_date}/></span>
                 <ol type='a'>
                     {pollData.choices.map(({id, choice_text, votes}) => (
                         <li key={id}>{choice_text} -- {maybePluralize(votes, 'vote')}</li>
@@ -23,9 +23,9 @@ export default function Poll({pollData}) {
                 </Link>
             </div>
             <style jsx>{`
-                .date {
-                    font-size: x-small;
-                } 
+              .date {
+                font-size: x-small;
+              }
             `}</style>
         </Layout>
     )
