@@ -9,7 +9,7 @@ export default function Layout({children}) {
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
             </Head>
             <Navbar />
-            <div className="container">
+            <div className="container col-sm-6">
                 {children}
             </div>
         </>

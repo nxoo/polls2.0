@@ -4,8 +4,8 @@ import Link from "next/link";
 export default function Navbar() {
     return (
         <nav className="navbar navbar-expand-lg navbar-light">
-            <div className="container">
-                <Link href="#">
+            <div className="container col-sm-6">
+                <Link href="/">
                     <a className="navbar-brand">Polls2.0</a>
                 </Link>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -14,7 +14,7 @@ export default function Navbar() {
                     <span className="navbar-toggler-icon"></span>
                 </button>
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul className="navbar-nav mx-auto mb-2 mb-lg-0">
+                    <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                         <li className="nav-item">
                             <Link href="/">
                                 <a className="nav-link active" aria-current="page">
@@ -32,7 +32,7 @@ export default function Navbar() {
                         <li className="nav-item">
                             <Link href="/login">
                                 <a className="nav-link">
-                                    Login <i className="bi bi-box-arrow-in-left"></i>
+                                    Login
                                 </a>
                             </Link>
                         </li>

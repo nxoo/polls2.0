@@ -8,7 +8,7 @@ export default function Custom404() {
             <div className="custom404">
                 <h4>404 - Page Not Found</h4>
                 <Link href="/">
-                    <a>← Back to home</a>
+                    <a>← Back home</a>
                 </Link>
             </div>
             <style jsx>{`
