@@ -5,7 +5,7 @@ import Layout from "../components/layout";
 export default function Custom404() {
     return (
         <Layout>
-            <div className="custom404">
+            <div className="custom404 p-2">
                 <h4>404 - Page Not Found</h4>
                 <Link href="/">
                     <a>← Back home</a>
@@ -13,8 +13,7 @@ export default function Custom404() {
             </div>
             <style jsx>{`
                 .custom404 {
-                    text-align: center;
-                    margin-top: 20%;
+                    margin-top: 10%;
                 }
             `}</style>
         </Layout>
