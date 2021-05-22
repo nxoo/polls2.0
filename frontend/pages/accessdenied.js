@@ -3,14 +3,14 @@ import Link from "next/link";
 import Layout from "../components/layout";
 
 
-export default function Custom404() {
+export default function AccessDenied() {
     return (
         <Layout>
             <Head>
-                <title>404 - Page Not Found</title>
+                <title>Access Denied</title>
             </Head>
-            <div className="custom404 p-lg-5">
-                <h3>404 - Page Not Found</h3>
+            <div className="p-lg-5">
+                <h3>Access Denied</h3>
                 <Link href="/">
                     <a>← Back home</a>
                 </Link>

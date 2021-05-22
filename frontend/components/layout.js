@@ -7,16 +7,12 @@ export default function Layout({children}) {
         <>
             <Head>
                 <meta name="viewport" content="width=device-width, initial-scale=1"/>
+                <title>Polls2.0</title>
             </Head>
             <Navbar/>
-            <div className="container">
+            <div className="container col-sm-8">
                 {children}
             </div>
-            <style jsx>{`
-                .container {
-                    margin-top: 10px;
-                }
-            `}</style>
         </>
     )
 }

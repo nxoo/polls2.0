@@ -31,12 +31,12 @@ export default function Home({polls}) {
             <Head>
                 <title>Polls2.0</title>
             </Head>
-            <div className="p-lg-2">
+            <div className="p-lg-5">
                 {polls.map(({id, question_text, pub_date}) => (
                     <div className="poll" key={id}>
-                        <h2>
+                        <h3>
                             <Link href={`/polls/${id}/`}><a>{question_text}</a></Link>
-                        </h2>
+                        </h3>
                         <span className="date">
                             <Date dateString={pub_date}/>
                         </span>
@@ -45,15 +45,16 @@ export default function Home({polls}) {
             </div>
             <style jsx>{`
               .date {
-                font-size: x-small;
+                font-size: small;
               }
 
               .polls {
                 text-align: center;
               }
 
-             a {
-                color: #0070f3;
+              a {
+                color: #3c3c3c;
+                text-decoration: none;
               }
 
               .poll {

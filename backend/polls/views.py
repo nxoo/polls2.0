@@ -13,7 +13,7 @@ from .permissions import IsOwnerOrReadOnly, IsChoiceOwnerOrReadOnly
 class QuestionViewSet(viewsets.ModelViewSet):
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+    #permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
 
     @action(detail=False)
     def user(self, request):
@@ -28,7 +28,7 @@ class QuestionViewSet(viewsets.ModelViewSet):
 class ChoiceViewSet(viewsets.ModelViewSet):
     queryset = Choice.objects.all()
     serializer_class = ChoiceSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsChoiceOwnerOrReadOnly]
+    #permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsChoiceOwnerOrReadOnly]
 
     @action(detail=True)
     def vote(self, request, *args, **kwargs):

@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import environ
+import datetime
 
 env = environ.Env(
     DEBUG=(bool, False)
@@ -45,7 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'rest_framework',
-    'rest_framework.authtoken',
+    # 'rest_framework.authtoken',
     'rest_auth',
     'allauth',
     'allauth.account',
@@ -142,19 +143,33 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
-ACCOUNT_EMAIL_VERIFICATION = 'none'
-ACCOUNT_AUTHENTICATION_METHOD = 'email'
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_USERNAME_REQUIRED = False
-
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.TokenAuthentication'
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        # 'rest_framework.authentication.BasicAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
     ]
 }
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
 ]
+
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+REST_USE_JWT = True
+
+
+JWT_AUTH = {
+    # how long the original token is valid for
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=2),
+
+    # allow refreshing of tokens
+    'JWT_ALLOW_REFRESH': True,
+
+    # this is the maximum time AFTER the token was issued that
+    # it can be refreshed.  exprired tokens can't be refreshed.
+    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=7),
+}
