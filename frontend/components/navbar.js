@@ -1,20 +1,11 @@
 import Link from "next/link";
-import { useSession, signIn, signOut } from 'next-auth/client';
+import {useSession, signIn, signOut} from 'next-auth/client';
 
 
 export default function Navbar() {
-    const [session] = useSession()
+    const [session, loading] = useSession()
 
-    const handleLogin = async event => {
-        event.preventDefault()
-        await signIn()
-    }
-
-    const handleLogout = async e => {
-        e.preventDefault()
-        await signOut()
-    }
-
+    console.log(session)
     return (
         <nav className="navbar navbar-expand navbar-light">
             <div className="container">
@@ -29,7 +20,7 @@ export default function Navbar() {
                     <li className="nav-item">
                         <Link href="/new-poll">
                             <a className="nav-link">
-                                <i className="bi bi-plus"></i> Poll
+                                + Poll
                             </a>
                         </Link>
                     </li>
@@ -37,13 +28,13 @@ export default function Navbar() {
                         (
                             <>
                                 <li className="nav-item">
-                                    <Link href="/profile">
+                                    <Link href={`/${session.user.username}`}>
                                         <a className="nav-link">{session.user.username}</a>
                                     </Link>
                                 </li>
                                 <li className="nav-item">
                                     <Link href="#">
-                                        <a className="nav-link" onClick={handleLogout}>Logout</a>
+                                        <a className="nav-link" onClick={() => signOut()}>Logout</a>
                                     </Link>
                                 </li>
                             </>
@@ -57,7 +48,7 @@ export default function Navbar() {
                                 </li>
                                 <li className="nav-item">
                                     <Link href="#">
-                                        <a className="nav-link" onClick={handleLogin}>Login</a>
+                                        <a className="nav-link" onClick={() => signIn()}>Login</a>
                                     </Link>
                                 </li>
                             </>

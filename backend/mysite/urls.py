@@ -16,12 +16,15 @@ Including another URLconf
 import environ
 from django.contrib import admin
 from django.urls import path, include
+from polls.views import GoogleLogin
 
 
 env = environ.Env()
 urlpatterns = [
     path('', include('polls.urls')),
-    path('rest-auth/registration/', include('rest_auth.registration.urls')),
-    path('rest-auth/', include('rest_auth.urls')),
+    path('rest-auth/', include('dj_rest_auth.urls')),
+    path('rest-auth/registration/', include('dj_rest_auth.registration.urls')),
+    path('rest-auth/google/', GoogleLogin.as_view(), name='google_login'),
     path(env('ADMIN_URL'), admin.site.urls),
+
 ]

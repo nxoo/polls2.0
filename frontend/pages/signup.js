@@ -1,6 +1,7 @@
 import React from "react";
 import Head from "next/head";
 import Layout from "../components/layout";
+import {signIn} from 'next-auth/client'
 import { signUp } from "../lib/polls";
 
 
@@ -12,6 +13,7 @@ class SignUp extends React.Component {
             email: '',
             password1: '',
             password2: '',
+            error: ""
         }
     }
 
@@ -28,13 +30,13 @@ class SignUp extends React.Component {
             'password1': this.state.password1,
             'password2': this.state.password2
         }
-        await signUp(data)
-        console.log(data)
-        this.setState({ email: '', password1: '', password2: '' })
+        const res = await signUp(data)
+        console.log(res.error)
+        this.setState({ email: '', password1: '', password2: '', error:res.error })
     }
 
     render() {
-        let { email, password1, password2 } = this.state;
+        let { email, password1, password2, error } = this.state;
         return (
             <Layout>
                 <Head>
@@ -42,6 +44,7 @@ class SignUp extends React.Component {
                 </Head>
                 <div className="p-lg-5">
                     <h2>Create a new account</h2>
+                    <h3>{error}</h3>
                     <form className="col-sm-7" onSubmit={this.handleSubmit}>
                         <div className="mb-3">
                             <label htmlFor="email" className="form-label">Email</label>
@@ -85,6 +88,10 @@ class SignUp extends React.Component {
                         </div>
                         <button type="submit" className="btn btn-primary">Submit</button>
                     </form>
+                    <br/>
+                    <div>
+                        <a href="#" onClick={() => signIn('google')}>Sign up with Google</a>
+                    </div>
                 </div>
             </Layout>
         )

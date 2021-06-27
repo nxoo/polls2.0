@@ -25,7 +25,6 @@ export async function getAllPollsIds() {
             }
         })
     } catch (error) {
-        console.log(error)
         return []
     }
 }
@@ -35,7 +34,6 @@ export async function getPollsData(id) {
         const res = await axios.get(`${HOST}/api/questions/${id}/`)
         return res.data
     } catch (error) {
-        console.log(error)
         return null
     }
 }
@@ -45,7 +43,6 @@ export async function vote(id) {
     try {
         await axios.get(`${HOST}/api/choices/${id}/vote/`)
     } catch (error) {
-        console.log(error)
         return null
     }
 }
@@ -57,13 +54,11 @@ export async function newPoll(data, token) {
             url: `${HOST}/api/questions/`,
             data: data,
             headers: {
-                "Authorization": `JWT ${token}`
+                "Authorization": `Bearer ${token}`
             }
         })
-        console.log(res.data)
         return res.data
     } catch (error) {
-        console.log(error)
         return null
     }
 }
@@ -76,13 +71,25 @@ export async function getAPIToken(data) {
             url: `${HOST}/rest-auth/login/`,
             data: data,
         })
-        console.log('data', res.data)
         return res.data
     } catch (error) {
-        console.log(error)
         return null
     }
 }
+
+export async function getGoogleToken(data) {
+    try {
+        const res = await axios({
+            method: "post",
+            url: `${HOST}/rest-auth/google/`,
+            data: data,
+        })
+        return res.data
+    } catch (error) {
+        return null
+    }
+}
+
 
 export async function signUp(data) {
     try {
@@ -91,9 +98,9 @@ export async function signUp(data) {
             url: `${HOST}/rest-auth/registration/`,
             data: data
         })
-        console.log(res.data)
+        return res.data
     } catch (error) {
         console.log(error)
-        return null
+        return error
     }
 }

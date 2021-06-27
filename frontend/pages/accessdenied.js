@@ -10,7 +10,7 @@ export default function AccessDenied() {
                 <title>Access Denied</title>
             </Head>
             <div className="p-lg-5">
-                <h3>Access Denied</h3>
+                <h3>Login required</h3>
                 <Link href="/">
                     <a>← Back home</a>
                 </Link>

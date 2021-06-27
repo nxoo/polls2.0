@@ -32,20 +32,20 @@ export default function Home({polls}) {
                 <title>Polls2.0</title>
             </Head>
             <div className="p-lg-5">
-                {polls.map(({id, question_text, pub_date}) => (
+                {polls.map(({id, question_text, pub_date, owner}) => (
                     <div className="poll" key={id}>
-                        <h3>
-                            <Link href={`/polls/${id}/`}><a>{question_text}</a></Link>
-                        </h3>
                         <span className="date">
-                            <Date dateString={pub_date}/>
+                            On <Date dateString={pub_date}/> by <a href="#">{owner}</a> 
                         </span>
+                        <h2>
+                            <Link href={`/polls/${id}/`}><a>{question_text}</a></Link>
+                        </h2>
                     </div>
                 ))}
             </div>
             <style jsx>{`
               .date {
-                font-size: small;
+                font-size: x-small;
               }
 
               .polls {
@@ -53,8 +53,8 @@ export default function Home({polls}) {
               }
 
               a {
-                color: #3c3c3c;
                 text-decoration: none;
+                color: #0596ff;
               }
 
               .poll {

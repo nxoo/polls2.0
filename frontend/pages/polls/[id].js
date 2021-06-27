@@ -27,11 +27,6 @@ export default function Poll({ pollData: { id, question_text, choices, owner, pu
             </Layout>
         )
     }
-    // When rendering client side don't display anything until loading is complete
-    if (typeof window !== 'undefined' && loading) return null
-
-    // If no session exists, display access denied message
-    if (!session) { return <AccessDenied /> }
 
     return (
         <Layout>
@@ -39,7 +34,7 @@ export default function Poll({ pollData: { id, question_text, choices, owner, pu
                 <title>{question_text}</title>
             </Head>
             <div className="p-lg-5">
-                <h3>{question_text}</h3>
+                <h2>{question_text}</h2>
                 <p className="date">
                     By <Link href={`/u/${owner}`}><a>{owner}</a></Link> on{' '}
                     <Date dateString={pub_date} />
@@ -52,7 +47,8 @@ export default function Poll({ pollData: { id, question_text, choices, owner, pu
                         </div>
                     ))}
                     <br />
-                    <input type="submit" value="vote" className="btn btn-success btn-sm" />
+                    <input type="submit" value="vote" className="btn btn-success" disabled={session?false:true} /><br />
+                    {!session ? <span><small>Login required</small></span> : ''}
                 </form>
                 <br />
                 <Link href="/">

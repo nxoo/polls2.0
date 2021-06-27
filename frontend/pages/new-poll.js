@@ -4,13 +4,14 @@ import {useSession} from 'next-auth/client';
 import {useRouter} from "next/router";
 import Layout from "../components/layout";
 import {newPoll} from "../lib/polls";
+import AccessDenied from "./accessdenied";
 
 
 export default function NewPoll() {
     const [question, setQuestion] = useState('')
     const [choice1, setChoice1] = useState('')
     const [choice2, setChoice2] = useState('')
-    const [session] = useSession()
+    const [session, loading] = useSession()
     const router = useRouter()
 
     const handleSubmit = async event => {
@@ -21,19 +22,22 @@ export default function NewPoll() {
         }
         const owner = session.accessToken
         const poll = await newPoll(data, owner)
-        setQuestion('')
-        setChoice1('')
-        setChoice2('')
         await router.push(`polls/${poll.id}`)
     }
+    // When rendering client side don't display anything until loading is complete
+    if (typeof window !== 'undefined' && loading) return null
+
+    // If no session exists, display access denied message
+    if (!session) { return <AccessDenied /> }
 
     return (
+
         <Layout>
             <Head>
                 <title>New Poll</title>
             </Head>
             <div className="p-lg-5">
-                <h2>Create a new poll</h2>
+                <h2>Add a new poll</h2>
                 <form className="col-sm-7" onSubmit={e => handleSubmit(e)}>
                     <div className="mb-3">
                         <label htmlFor="question" className="form-label">Question</label>
