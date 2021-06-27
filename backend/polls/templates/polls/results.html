@@ -3,7 +3,7 @@
     <div>
         {% if question %}
             <h2>{{ question.question_text }}</h2>
-            <p style="font-size: x-small;">On {{ question.pub_date|date:"F j, Y" }}</p>
+            <p style="font-size: x-small;">On {{ question.pub_date|date:"F j, Y" }} by <a href="/">{{ question.owner.username }}</a></p>
             {% if question.choices.all %}
                 <ol type="a">
                     {% for choice in question.choices.all %}

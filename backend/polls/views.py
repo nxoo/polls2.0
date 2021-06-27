@@ -2,16 +2,38 @@ from django.utils import timezone
 from django.shortcuts import render, get_object_or_404, reverse
 from django.http import HttpResponseRedirect
 from django.views import generic
-from rest_framework import viewsets
+from rest_framework import viewsets, permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
+
+from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
+from dj_rest_auth.registration.views import SocialLoginView
+from allauth.socialaccount.providers.oauth2.client import OAuth2Client
+from django.conf import settings
+
 from .models import Question, Choice
 from .serializers import QuestionSerializer, ChoiceSerializer
+from .permissions import IsOwnerOrReadOnly, IsChoiceOwnerOrReadOnly
+
+
+class GoogleLogin(SocialLoginView):
+    authentication_classes = [] # disable authentication
+    adapter_class = GoogleOAuth2Adapter
+    callback_url = "http://localhost:3000"
+    client_class = OAuth2Client
 
 
 class QuestionViewSet(viewsets.ModelViewSet):
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
+
+    # permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+
+    @action(detail=False)
+    def user(self, request):
+        questions = Question.objects.filter(owner_id=self.request.user.id)
+        serializer = QuestionSerializer(questions, many=True)
+        return Response(serializer.data)
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
@@ -20,6 +42,8 @@ class QuestionViewSet(viewsets.ModelViewSet):
 class ChoiceViewSet(viewsets.ModelViewSet):
     queryset = Choice.objects.all()
     serializer_class = ChoiceSerializer
+
+    # permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsChoiceOwnerOrReadOnly]
 
     @action(detail=True)
     def vote(self, request, *args, **kwargs):
@@ -83,4 +107,3 @@ def vote(request, question_id):
         to prevent data from being posted twice in case a user hits the back button
         """
         return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
-

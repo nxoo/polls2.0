@@ -12,7 +12,7 @@
         </style>
         {% if latest_question_list %}
             {% for question in latest_question_list %}
-                <small style="font-size: x-small;">On {{ question.pub_date|date:"F j, Y" }}</small>
+                <small style="font-size: x-small;">On {{ question.pub_date|date:"F j, Y" }} by <a href="/">{{ question.owner.username }}</a></small>
                 <h3>
                     <a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a>
                 </h3>
