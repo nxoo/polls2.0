@@ -38,7 +38,7 @@ export default function Home({polls}) {
                             On <Date dateString={pub_date}/> by <a href="#">{owner}</a> 
                         </span>
                         <h2>
-                            <Link href={`/polls/${id}/`}><a>{question_text}</a></Link>
+                           <Link href={`/polls/${id}/`}><a>{question_text}</a></Link>
                         </h2>
                     </div>
                 ))}
