@@ -6,10 +6,10 @@ The app has two frontends that share the same model
 2. And the other build with NextJS & DjangoRestFramework API
 
 I have added extra functions to the original django polls app
-    Added an API with DRF, and a NextJS client
-    Authentication: sign up & login
-    ownership of Polls
-    permissions, user can't edit a poll which isn't his/hers
-    create new polls with the app instead of using the admin site
-    etc
+1. Added an API with DRF, and a NextJS client
+2. Authentication: sign up & login
+3. ownership of Polls
+4. permissions, user can't edit a poll which isn't his/hers
+5. create new polls with the app instead of using the admin site
+etc
 
